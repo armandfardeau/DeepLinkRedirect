@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Redirecting to SpeedTest...</title>
+    <title>Redirecting to SailingApp...</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
@@ -15,6 +15,7 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
         }
+
         .container {
             text-align: center;
             padding: 40px;
@@ -24,10 +25,12 @@
             box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
             max-width: 500px;
         }
+
         h1 {
             margin-top: 0;
             font-size: 2em;
         }
+
         .spinner {
             width: 50px;
             height: 50px;
@@ -37,13 +40,18 @@
             animation: spin 1s linear infinite;
             margin: 30px auto;
         }
+
         @keyframes spin {
-            to { transform: rotate(360deg); }
+            to {
+                transform: rotate(360deg);
+            }
         }
+
         .status {
             margin: 20px 0;
             font-size: 1.1em;
         }
+
         .error {
             color: #ffcccc;
             background-color: rgba(220, 53, 69, 0.3);
@@ -51,6 +59,7 @@
             border-radius: 8px;
             margin-top: 20px;
         }
+
         .success {
             color: #d4edda;
             background-color: rgba(40, 167, 69, 0.3);
@@ -58,6 +67,7 @@
             border-radius: 8px;
             margin-top: 20px;
         }
+
         .link-display {
             background-color: rgba(255, 255, 255, 0.2);
             padding: 10px;
@@ -67,6 +77,7 @@
             font-family: 'Courier New', monospace;
             font-size: 0.9em;
         }
+
         .button {
             display: inline-block;
             padding: 12px 24px;
@@ -78,10 +89,12 @@
             font-weight: bold;
             transition: transform 0.2s;
         }
+
         .button:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
+
         .instructions {
             margin-top: 20px;
             font-size: 0.9em;
@@ -90,151 +103,156 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🚀 SpeedTest Deep Link</h1>
-        <div id="spinner" class="spinner"></div>
-        <div id="status" class="status">Preparing to redirect...</div>
-        <div id="message"></div>
-        <div id="linkDisplay" class="link-display" style="display: none;"></div>
-        <a href="/" class="button" style="display: none;" id="homeButton">← Back to Home</a>
-    </div>
+<div class="container">
+    <h1>🚀 SailingApp Deep Link</h1>
+    <div id="spinner" class="spinner"></div>
+    <div id="status" class="status">Preparing to redirect...</div>
+    <div id="message"></div>
+    <div id="linkDisplay" class="link-display" style="display: none;"></div>
+    <a href="/" class="button" style="display: none;" id="homeButton">← Back to Home</a>
+</div>
 
-    <script>
-        // Get the 'to' parameter from the URL
-        const urlParams = new URLSearchParams(window.location.search);
-        const deepLink = urlParams.get('to');
-        
-        const statusElement = document.getElementById('status');
-        const messageElement = document.getElementById('message');
-        const spinnerElement = document.getElementById('spinner');
-        const linkDisplayElement = document.getElementById('linkDisplay');
-        const homeButton = document.getElementById('homeButton');
+<script>
+    // Get the 'to' parameter from the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const deepLink = urlParams.get('to');
 
-        function showError(errorMessage, isHTML = false) {
-            spinnerElement.style.display = 'none';
-            statusElement.textContent = 'Oops! Something went wrong';
-            const errorDiv = document.createElement('div');
-            errorDiv.className = 'error';
-            if (isHTML) {
-                errorDiv.innerHTML = errorMessage;
-            } else {
-                errorDiv.textContent = errorMessage;
-            }
-            messageElement.innerHTML = '';
-            messageElement.appendChild(errorDiv);
-            homeButton.style.display = 'inline-block';
+    const statusElement = document.getElementById('status');
+    const messageElement = document.getElementById('message');
+    const spinnerElement = document.getElementById('spinner');
+    const linkDisplayElement = document.getElementById('linkDisplay');
+    const homeButton = document.getElementById('homeButton');
+
+    function showError(errorMessage, isHTML = false) {
+        spinnerElement.style.display = 'none';
+        statusElement.textContent = 'Oops! Something went wrong';
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'error';
+        if (isHTML) {
+            errorDiv.innerHTML = errorMessage;
+        } else {
+            errorDiv.textContent = errorMessage;
         }
+        messageElement.innerHTML = '';
+        messageElement.appendChild(errorDiv);
+        homeButton.style.display = 'inline-block';
+    }
 
-        function showSuccess() {
-            spinnerElement.style.display = 'none';
-            statusElement.textContent = 'Redirecting...';
-            messageElement.innerHTML = `
+    function showSuccess() {
+        spinnerElement.style.display = 'none';
+        statusElement.textContent = 'Redirecting...';
+        messageElement.innerHTML = `
                 <div class="success">
-                    <strong>✓ Opening SpeedTest app</strong>
+                    <strong>✓ Opening SailingApp app</strong>
                     <div class="instructions">
-                        If the app doesn't open automatically, please make sure SpeedTest is installed on your device.
+                        If the app doesn't open automatically, please make sure SailingApp is installed on your device.
                     </div>
                 </div>
             `;
-            homeButton.style.display = 'inline-block';
-        }
+        homeButton.style.display = 'inline-block';
+    }
 
-        function attemptDeepLink(link) {
-            try {
-                // Display the link being opened
-                linkDisplayElement.textContent = link;
-                linkDisplayElement.style.display = 'block';
-                
-                // Attempt to open the deep link
-                statusElement.textContent = 'Opening SpeedTest app...';
-                
-                // Create a hidden iframe to attempt the deep link
-                const iframe = document.createElement('iframe');
-                iframe.style.display = 'none';
-                iframe.src = link;
-                document.body.appendChild(iframe);
-                
-                // Remove iframe after it's no longer needed to prevent memory leaks
-                setTimeout(() => {
-                    if (iframe.parentNode) {
-                        iframe.parentNode.removeChild(iframe);
-                    }
-                }, 5000);
-                
-                // Also try using window.location as a fallback
-                setTimeout(() => {
-                    window.location.href = link;
-                }, 100);
-                
-                // Show success message after a brief delay
-                setTimeout(() => {
-                    showSuccess();
-                }, 1000);
-                
-                // Set a timeout to detect if the app didn't open
-                setTimeout(() => {
-                    // If the page is still visible after 3 seconds, the app might not be installed
-                    if (document.visibilityState === 'visible') {
-                        const troubleshootingDiv = document.createElement('div');
-                        troubleshootingDiv.className = 'instructions';
-                        troubleshootingDiv.style.marginTop = '15px';
-                        troubleshootingDiv.innerHTML = `
+    function attemptDeepLink(link) {
+        try {
+            // Display the link being opened
+            linkDisplayElement.textContent = link;
+            linkDisplayElement.style.display = 'block';
+
+            // Attempt to open the deep link
+            statusElement.textContent = 'Opening SailingApp app...';
+
+            // Create a hidden iframe to attempt the deep link
+            const iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            iframe.src = link;
+            document.body.appendChild(iframe);
+
+            // Remove iframe after it's no longer needed to prevent memory leaks
+            setTimeout(() => {
+                if (iframe.parentNode) {
+                    iframe.parentNode.removeChild(iframe);
+                }
+            }, 5000);
+
+            // Also try using window.location as a fallback
+            setTimeout(() => {
+                window.location.href = link;
+            }, 100);
+
+            // Show success message after a brief delay
+            setTimeout(() => {
+                showSuccess();
+            }, 1000);
+
+            // Set a timeout to detect if the app didn't open
+            setTimeout(() => {
+                // If the page is still visible after 3 seconds, the app might not be installed
+                if (document.visibilityState === 'visible') {
+                    const troubleshootingDiv = document.createElement('div');
+                    troubleshootingDiv.className = 'instructions';
+                    troubleshootingDiv.style.marginTop = '15px';
+                    troubleshootingDiv.innerHTML = `
                             <strong>Troubleshooting:</strong>
                             <ul style="text-align: left; display: inline-block;">
-                                <li>Make sure the SpeedTest app is installed</li>
+                                <li>Make sure the SailingApp app is installed</li>
                                 <li>Check if your browser allows opening external apps</li>
                                 <li>Try copying the link above and opening it manually</li>
+                                <li>
+                                    <a class="button" target="_blank" href="https://play.google.com/store/apps/details?id=com.sailingtoolkit.speedtest">
+                                        Install on store
+                                    </a>
+                                </li>
                             </ul>
                         `;
-                        messageElement.appendChild(troubleshootingDiv);
-                    }
-                }, 3000);
-                
-            } catch (error) {
-                showError(`Failed to open deep link: ${error.message}`);
+                    messageElement.appendChild(troubleshootingDiv);
+                }
+            }, 3000);
+
+        } catch (error) {
+            showError(`Failed to open deep link: ${error.message}`);
+        }
+    }
+
+    // Helper function to create safe HTML elements with code
+    function createErrorMessageWithCode(text, code) {
+        const container = document.createElement('div');
+        container.textContent = text + ' ';
+        const codeElement = document.createElement('code');
+        codeElement.textContent = code;
+        container.appendChild(codeElement);
+        return container.innerHTML;
+    }
+
+    // Helper function to create error message with line breaks
+    function createSimpleErrorMessage(text) {
+        const parts = text.split('\n');
+        const container = document.createElement('div');
+        parts.forEach((part, index) => {
+            if (part) {
+                const span = document.createElement('span');
+                span.textContent = part;
+                container.appendChild(span);
             }
-        }
+            if (index < parts.length - 1) {
+                container.appendChild(document.createElement('br'));
+            }
+        });
+        return container.innerHTML;
+    }
 
-        // Helper function to create safe HTML elements with code
-        function createErrorMessageWithCode(text, code) {
-            const container = document.createElement('div');
-            container.textContent = text + ' ';
-            const codeElement = document.createElement('code');
-            codeElement.textContent = code;
-            container.appendChild(codeElement);
-            return container.innerHTML;
-        }
-
-        // Helper function to create error message with line breaks
-        function createSimpleErrorMessage(text) {
-            const parts = text.split('\n');
-            const container = document.createElement('div');
-            parts.forEach((part, index) => {
-                if (part) {
-                    const span = document.createElement('span');
-                    span.textContent = part;
-                    container.appendChild(span);
-                }
-                if (index < parts.length - 1) {
-                    container.appendChild(document.createElement('br'));
-                }
-            });
-            return container.innerHTML;
-        }
-
-        // Main logic
-        if (!deepLink) {
-            const errorMsg = createSimpleErrorMessage('No deep link provided. Please provide a "to" parameter in the URL.\n\nExample: ?to=speedtest://location');
-            showError(errorMsg, true);
-        } else if (!deepLink.startsWith('speedtest://')) {
-            const errorMsg = createErrorMessageWithCode('Invalid deep link format. Deep links must start with "speedtest://"\n\nReceived:', deepLink);
-            showError(errorMsg, true);
-        } else {
-            // Valid deep link, attempt to open it
-            setTimeout(() => {
-                attemptDeepLink(deepLink);
-            }, 500);
-        }
-    </script>
+    // Main logic
+    if (!deepLink) {
+        const errorMsg = createSimpleErrorMessage('No deep link provided. Please provide a "to" parameter in the URL.\n\nExample: ?to=sailing-app://location');
+        showError(errorMsg, true);
+    } else if (!deepLink.startsWith('sailing-app://')) {
+        const errorMsg = createErrorMessageWithCode('Invalid deep link format. Deep links must start with "sailing-app://"\n\nReceived:', deepLink);
+        showError(errorMsg, true);
+    } else {
+        // Valid deep link, attempt to open it
+        setTimeout(() => {
+            attemptDeepLink(deepLink);
+        }, 500);
+    }
+</script>
 </body>
 </html>
